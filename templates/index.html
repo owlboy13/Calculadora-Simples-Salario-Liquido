@@ -7,24 +7,120 @@
     <title>Calculadora de Salário líquido</title>
 </head>
 <body>
-    <div class="container">
-        <h1>Calculadora Simples de Salário Líquido</h1>
+     <div class="container">
+        <h1>Calculadora de Salário Líquido</h1>
 
-        <form action="/resultado" method="post">
-        <div class="form-group">
-            <label>Salário Bruto:</label>
-            <input type="number" step="0.01" id="salario" name="salario" required
-                placeholder="Digite o valor">
-        </div>
-        <div class="form-group">
-            <label for="dependentes">Número de Dependentes:</label>
-            <input type="number" id="dependentes" name="dependentes" required
-                placeholder="Digite o número de pessoas dependentes de você">
-        </div>
-        <div>
-            <button type="submit">Calcular</button>
-        </div>
+        <form action="/resultado" method="post" onsubmit="return validateForm()">
+            <div class="form-group">
+                <label>Salário Bruto:</label>
+                <input type="number" step="0.01" id="salario" name="salario" required
+                    placeholder="0.00"
+                    oninput="validateSalario(this)">
+                <div id="salarioError" class="error-message">
+                    O valor deve ser maior que zero
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="dependentes">Número de Dependentes:</label>
+                <input type="number" id="dependentes" name="dependentes" required
+                    placeholder="Digite o número de pessoas dependentes de você"
+                    oninput="validateDependentes(this)">
+                <div id="dependentesError" class="error-message">
+                    O número de dependentes não pode ser negativo
+                </div>
+            </div>
+            <div>
+                <button type="submit" id="submitButton">Calcular</button>
+            </div>
         </form>
     </div>
+    <script>
+        let isSalarioValid = false;
+        let isDependenteValid = false;
+        
+        // Função para validar salário
+        function validateSalario(input) {
+            const errorElement = document.getElementById('salarioError');
+            const value = parseFloat(input.value);
+
+            if (isNaN(value) || value <= 0) {
+                input.classList.add('invalid');
+                errorElement.style.display = 'block';
+                isSalarioValid = false;
+                updateSubmitButton();
+                return false;
+            } else {
+                input.classList.remove('invalid');
+                errorElement.style.display = 'none';
+                isSalarioValid = true;
+                updateSubmitButton();
+                return true;
+            }
+        }
+
+        // Função para validar dependentes
+        function validateDependentes(input) {
+            const errorElement = document.getElementById('dependentesError');
+            const value = parseInt(input.value);
+
+            if (isNaN(value) || value < 0) {
+                input.classList.add('invalid');
+                errorElement.style.display = 'block';
+                isDependenteValid = false;
+                updateSubmitButton();
+                return false;
+            } else {
+                input.classList.remove('invalid');
+                errorElement.style.display = 'none';
+                isDependenteValid = true;
+                updateSubmitButton();
+                return true;
+            }
+        }
+
+        // Atualizar estado do botão de envio
+        function updateSubmitButton() {
+            const submitButton = document.getElementById('submitButton');
+            submitButton.disabled = !(isSalarioValid && isDependenteValid);
+        }
+
+        // Validação final do formulário
+        function validateForm() {
+            const salarioInput = document.getElementById('salario');
+            const dependentesInput = document.getElementById('dependentes');
+            
+            const isSalarioOk = validateSalario(salarioInput);
+            const isDependentesOk = validateDependentes(dependentesInput);
+            
+            if (!isSalarioOk || !isDependentesOk) {
+                shakeElement(salarioInput);
+                shakeElement(dependentesInput);
+                return false;
+            }
+            
+            return true;
+        }
+
+        // Função para animação de shake
+        function shakeElement(element) {
+            element.classList.add('invalid');
+            element.animate([
+                { transform: 'translateX(0)' },
+                { transform: 'translateX(-5px)' },
+                { transform: 'translateX(5px)' },
+                { transform: 'translateX(-5px)' },
+                { transform: 'translateX(5px)' },
+                { transform: 'translateX(0)' }
+            ], {
+                duration: 300,
+                iterations: 1
+            });
+        }
+        
+        // Validação inicial para desabilitar o botão
+        document.addEventListener('DOMContentLoaded', function() {
+            updateSubmitButton();
+        });
+    </script>
 </body>
 </html>

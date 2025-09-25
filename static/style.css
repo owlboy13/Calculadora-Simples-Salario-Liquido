@@ -4,11 +4,11 @@
     --neon-blue: #00f3ff;
     --neon-green: #73ff00;
     --dark-green: #1c441e;
-    --dark-bg: #0f0f1a;
-    --darker-bg: #080810;
-    --card-bg: #161624;
-    --text-primary: #ffffff;
-    --text-secondary: #adadad;
+    --white-bg: #ffffff;
+    --white-bgs: #ffffff;
+    --card-bg: #ffffff;
+    --text-primary: #000000;
+    --text-secondary: #0f0f0f;
 }
 
 * {
@@ -18,7 +18,7 @@
 }
 
 body {
-    background: linear-gradient(135deg, var(--darker-bg) 0%, var(--dark-bg) 100%);
+    background: linear-gradient(135deg, var(--white-bgs) 0%, var(--white-bg) 100%);
     color: var(--text-primary);
     font-family: 'Exo 2', sans-serif;
     min-height: 100vh;
@@ -35,9 +35,9 @@ body {
     background: var(--card-bg);
     border-radius: 16px;
     padding: 30px;
-    box-shadow: 0 0 25px rgba(0, 243, 255, 0.2),
-                0 0 50px rgba(189, 0, 255, 0.1);
-    border: 1px solid rgba(0, 243, 255, 0.1);
+    box-shadow: 0 0 25px rgba(15, 8, 55, 0.79),
+                0 0 50px rgb(3, 3, 3);
+    border: 1px solid rgba(0, 0, 0, 0.87);
     position: relative;
     overflow: hidden;
 }
@@ -66,7 +66,7 @@ label {
 input {
     width: 100%;
     padding: 14px;
-    background: rgba(10, 10, 20, 0.6);
+    background: rgba(248, 248, 248, 0.6);
     border: 1px solid rgba(0, 243, 255, 0.3);
     border-radius: 8px;
     color: var(--text-primary);
@@ -77,7 +77,7 @@ input {
 input:focus {
     outline: none;
     border-color: var(--neon-orange);
-    box-shadow: 0 0 15px rgba(0, 243, 255, 0.5);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
 }
 
 button {
@@ -104,3 +104,14 @@ button:disabled {
     box-shadow: none;
 }
 
+.error-message {
+    color: #ff3860;
+    font-size: 14px;
+    margin-top: 8px;
+    display: none;
+    /* text-shadow: 0 0 5px rgba(255, 56, 96, 0.7); */
+}
+
+.invalid {
+    border: 2px solid red !important;
+}
